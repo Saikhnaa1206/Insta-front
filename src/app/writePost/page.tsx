@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-const writePost = () => {
+const WritePost = () => {
   type tokenType = { userId: string; username: string };
   const token = localStorage.getItem("accessToken") ?? "";
   const decodedToken: tokenType = jwtDecode(token);
@@ -114,4 +114,4 @@ const writePost = () => {
     </div>
   );
 };
-export default writePost;
+export default WritePost;

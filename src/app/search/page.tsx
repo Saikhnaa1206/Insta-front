@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
+import Footer from "../components/Footer";
 type User = {
   _id: string;
   username: string;
@@ -58,12 +59,13 @@ const Search = () => {
               <Avatar>
                 <AvatarImage src={user.profileImage} />
                 <AvatarFallback>CN</AvatarFallback>
-              </Avatar>{" "}
+              </Avatar>
               <div className="text-white font-bold">{user.username}</div>
             </CardContent>
           </Card>
         );
       })}
+      <Footer/>
     </div>
   );
 };

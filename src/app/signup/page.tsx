@@ -43,7 +43,6 @@ const Page = () => {
     localStorage.setItem("accessToken", token);
     router.push("/posts");
   };
-  // (e: ChangeEvent<HTMLInputElement>)
 
   return (
     <div className=" bg-black flex justify-center items-center w-screen h-screen">

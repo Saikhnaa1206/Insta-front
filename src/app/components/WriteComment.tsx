@@ -27,7 +27,6 @@ const WriteComment = ({ postId }: { postId: string }) => {
           body: JSON.stringify(body),
         }
       );
-      const response = await jsonData.json();
       setComment("");
     }
   };

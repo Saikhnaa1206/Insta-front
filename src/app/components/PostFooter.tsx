@@ -43,7 +43,6 @@ const PostFooter = ({ postId, likes }: { postId: string; likes: string[] }) => {
           body: JSON.stringify(body),
         }
       );
-      const response = await jsonData.json();
     }
   };
   return (

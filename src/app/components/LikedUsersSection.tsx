@@ -39,14 +39,13 @@ export const LikedUsersSection = ({
       );
       const response = await jsonData.json();
       setLikedUsers(response.likes);
-      console.log(response.likes);
     }
   };
   useEffect(() => {
     getLikedUser();
   }, [id]);
   return (
-    <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
+    <Dialog open={open} onOpenChange={(e: boolean) => setOpen(e)}>
       <DialogContent className="bg-black flex flex-col justify-start gap-5 text-white h-[500px]">
         <DialogHeader>
           <DialogTitle>

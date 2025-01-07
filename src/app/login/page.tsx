@@ -15,7 +15,6 @@ const Page = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [username, setUsername] = useState<string>("");
-  // const [valid, setValid] = useState<boolean>();
   const body = {
     email,
     password,
@@ -40,12 +39,9 @@ const Page = () => {
       const token = data.token;
       localStorage.setItem("accessToken", token);
       router.push("/posts");
-      // setValid(true);
     } else {
-      // setValid(false);
     }
   };
-  // (e: ChangeEvent<HTMLInputElement>)
   return (
     <div className=" bg-black flex justify-center items-center w-screen h-screen">
       <Card className="flex flex-col bg-black justify-center items-center border-0">
@@ -77,7 +73,6 @@ const Page = () => {
               setPassword(e.target.value);
             }}
           />
-          {/* {valid ? null : <div className="text-white">incorrect</div>} */}
           <Button onClick={() => validation()}>Log in</Button>
         </CardContent>
         <CardFooter className="flex gap-1">
