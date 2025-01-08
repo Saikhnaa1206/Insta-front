@@ -16,17 +16,14 @@ const WriteComment = ({ postId }: { postId: string }) => {
   };
   const commentWrite = async () => {
     if (comment) {
-      const jsonData = await fetch(
-        " https://instagram-server-8xvr.onrender.com/createComment",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
+      await fetch(" https://instagram-server-8xvr.onrender.com/createComment", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
       setComment("");
     }
   };
