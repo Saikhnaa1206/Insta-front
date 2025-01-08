@@ -69,35 +69,27 @@ const Profile = () => {
         unfollowingUserId: userId,
         userId: accountId,
       };
-      const jsonData = await fetch(
-        " https://instagram-server-8xvr.onrender.com/unfollow",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const response = await jsonData.json();
+      await fetch(" https://instagram-server-8xvr.onrender.com/unfollow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
     } else {
       const body = {
         followingUserId: userId,
         userId: accountId,
       };
-      const jsonData = await fetch(
-        " https://instagram-server-8xvr.onrender.com/follow",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const response = await jsonData.json();
+      await fetch(" https://instagram-server-8xvr.onrender.com/follow", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
     }
   };
   useEffect(() => {
@@ -107,6 +99,7 @@ const Profile = () => {
       getUser();
     }
   }, []);
+
   return (
     <div className="bg-black flex flex-col w-screen h-screen relative ">
       <FollowSection
@@ -174,6 +167,9 @@ const Profile = () => {
               key={post._id}
               src={post.postImage[0]}
               className="w-1/3 h-[130px] bg-no-repeat bg-cover bg-center "
+              onClick={() => {
+                router.replace(`/posts/${userId}/${post._id}`);
+              }}
             />
           );
         })}
