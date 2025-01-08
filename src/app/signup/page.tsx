@@ -83,7 +83,7 @@ const Page = () => {
           {errorPassword && (
             <div className="text-cyan-200">password is wrong</div>
           )}
-          <Button onClick={() => validation()}>Sign up</Button>
+          <Button onClick={validation}>Sign up</Button>
         </CardContent>
         <CardFooter className="flex gap-1">
           <p className="text-white">Have an account?</p>
