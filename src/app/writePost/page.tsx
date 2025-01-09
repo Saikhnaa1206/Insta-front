@@ -2,14 +2,19 @@
 import { jwtDecode } from "jwt-decode";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ChevronLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 const WritePost = () => {
   type tokenType = { userId: string; username: string };
-  const token = localStorage.getItem("accessToken") ?? "";
-  const decodedToken: tokenType = jwtDecode(token);
-  const userId = decodedToken.userId;
+  const [token, setToken] = useState("");
+  useEffect(() => {
+    if (window !== undefined) {
+      const storageToken = localStorage.getItem("accessToken") ?? "";
+      setToken(storageToken);
+    }
+  }, []);
+
   const router = useRouter();
   const [caption, setCaption] = useState<string>("");
   const [images, setImages] = useState<FileList | null>(null);
@@ -43,6 +48,8 @@ const WritePost = () => {
     setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
   };
   const createPost = async () => {
+    const decodedToken: tokenType = jwtDecode(token);
+    const userId = decodedToken.userId;
     const body = {
       caption,
       postImage: uploadedImages,

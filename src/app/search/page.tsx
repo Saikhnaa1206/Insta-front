@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { UserRoundSearch } from "lucide-react";
@@ -16,7 +16,15 @@ const Search = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [input, setInput] = useState<string>("");
   const router = useRouter();
-  const token = localStorage.getItem("accessToken");
+  const [token, setToken] = useState("");
+
+  useEffect(() => {
+    if (typeof window.localStorage !== "undefined") {
+      const storageToken = localStorage.getItem("accessToken") ?? "";
+      setToken(storageToken);
+    }
+  }, []);
+
   const getUsers = async () => {
     const jsonData = await fetch(
       "https://instagram-server-8xvr.onrender.com/users",
