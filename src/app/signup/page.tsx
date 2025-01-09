@@ -71,7 +71,9 @@ const Page = () => {
               setEmail(e.target.value);
             }}
           />
-          {errorEmail && <div className="text-cyan-200">email is wrong</div>}
+          {errorEmail ? (
+            <div className="text-cyan-200">email is wrong</div>
+          ) : null}
           <Input
             className="text-white"
             placeholder="Password"
@@ -80,9 +82,9 @@ const Page = () => {
               setPassword(e.target.value);
             }}
           />
-          {errorPassword && (
+          {errorPassword ? (
             <div className="text-cyan-200">password is wrong</div>
-          )}
+          ) : null}
           <Button
             onClick={() => {
               validation;

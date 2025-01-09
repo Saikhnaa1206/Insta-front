@@ -76,7 +76,7 @@ const Page = () => {
           <Button onClick={() => validation()}>Log in</Button>
         </CardContent>
         <CardFooter className="flex gap-1">
-          <p className="text-white">Don't have an account?</p>
+          <p className="text-white">Don&apos;t have an account?</p>
           <Link href={"/signup"} className="text-white">
             Sign up
           </Link>
