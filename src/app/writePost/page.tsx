@@ -49,18 +49,14 @@ const WritePost = () => {
       userId,
     };
     if (uploadedImages.length > 0 && caption !== "") {
-      const response = await fetch(
-        " https://instagram-server-8xvr.onrender.com/create",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(body),
-        }
-      );
-      const result = await response.json();
+      await fetch(" https://instagram-server-8xvr.onrender.com/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(body),
+      });
       router.replace("/posts");
     }
   };
