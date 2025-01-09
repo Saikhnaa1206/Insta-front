@@ -62,6 +62,7 @@ const Profile = () => {
     );
     const response = await jsonData.json();
     setUser(response);
+    console.log(response);
   };
   const followUser = async () => {
     if (followedOrNot) {

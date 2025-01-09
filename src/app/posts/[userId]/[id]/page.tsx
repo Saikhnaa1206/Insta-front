@@ -69,7 +69,7 @@ const Page = () => {
   };
   useEffect(() => {
     if (!token) {
-      router.push("/signup");
+      router.replace("");
     } else {
       getPosts();
     }
@@ -90,59 +90,62 @@ const Page = () => {
         {" "}
         {posts?.map((post) => {
           return (
-            <Card
-              key={post._id}
-              className=" flex flex-col justify-center  text-xl bg-black border-none"
-            >
-              <CardHeader
-                onClick={() => router.push(`/profile/${post.userId._id}`)}
+            <div key={post._id} className="w-full">
+              <Card
+                key={post._id}
+                className=" flex flex-col justify-center  text-xl bg-black border-none"
               >
-                <div className="flex gap-2 items-center ">
-                  <Avatar>
-                    <AvatarImage src={post.userId.profileImage} />
-                    <AvatarFallback>CN</AvatarFallback>
-                  </Avatar>
-                  <div className="text-white">{post.userId.username}</div>
-                </div>
-              </CardHeader>
-              <CardContent className="p-0">
-                <Carousel>
-                  <CarouselContent>
-                    {post.postImage?.map((image, index) => {
-                      return (
-                        <CarouselItem key={index}>
-                          <img src={image} className="w-full" />
-                        </CarouselItem>
-                      );
-                    })}
-                  </CarouselContent>
-                </Carousel>
-              </CardContent>
-              <CardDescription className="p-6 font-black text-white">
-                {" "}
-                {post.caption}
-              </CardDescription>
-              <PostFooter postId={post?._id} likes={post?.likes} />
-              <Button
-                className="text-white pl-6 text-xl w-fit bg-black"
-                onClick={() => {
-                  setOpen(true);
-                  setPostId(post._id);
-                }}
-              >
-                {post.likes.length} likes
-              </Button>
+                <CardHeader
+                  onClick={() => router.push(`/profile/${post.userId._id}`)}
+                >
+                  <div className="flex gap-2 items-center ">
+                    <Avatar>
+                      <AvatarImage src={post.userId.profileImage} />
+                      <AvatarFallback>CN</AvatarFallback>
+                    </Avatar>
+                    <div className="text-white">{post.userId.username}</div>
+                  </div>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <Carousel>
+                    <CarouselContent>
+                      {post.postImage?.map((image, index) => {
+                        return (
+                          <CarouselItem key={index}>
+                            <img src={image} className="w-full" />
+                          </CarouselItem>
+                        );
+                      })}
+                    </CarouselContent>
+                  </Carousel>
+                </CardContent>
+                <CardDescription className="p-6 font-black text-white">
+                  {" "}
+                  {post.caption}
+                </CardDescription>
+                <PostFooter postId={post?._id} likes={post?.likes} />
+                <Button
+                  className="text-white pl-6 text-xl w-fit bg-black"
+                  onClick={() => {
+                    setOpen(true);
+                    setPostId(post._id);
+                  }}
+                >
+                  {post.likes.length} likes
+                </Button>
 
-              <Link
-                href={`/posts/comments/${post._id}`}
-                className="text-white pl-6 text-xl"
-              >
-                {post.comments.length} comments
-              </Link>
-            </Card>
+                <Link
+                  href={`/posts/comments/${post._id}`}
+                  className="text-white pl-6 text-xl"
+                >
+                  {post.comments.length} comments
+                </Link>
+              </Card>
+            </div>
           );
         })}{" "}
       </div>
+
       <Footer />
     </div>
   );

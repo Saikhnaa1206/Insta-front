@@ -10,6 +10,7 @@ type userType = {
   profileImage: "";
 };
 import { Carousel, CarouselContent } from "@/components/ui/carousel";
+import { useRouter } from "next/navigation";
 export const FollowSection = ({
   open,
   setOpen,
@@ -37,6 +38,7 @@ export const FollowSection = ({
       );
       const response = await jsonData.json();
       setFollowers(response);
+      console.log(response);
     }
   };
   const getFollowing = async () => {
@@ -58,6 +60,7 @@ export const FollowSection = ({
     getFollowers();
     getFollowing();
   }, [userId]);
+  const router = useRouter();
   return (
     <Dialog open={open} onOpenChange={(e) => setOpen(e)}>
       <DialogContent className="bg-black flex flex-col justify-start gap-5 text-white h-[500px]">
@@ -71,6 +74,9 @@ export const FollowSection = ({
                   <Card
                     key={follower._id}
                     className="bg-black border-none w-screen"
+                    onClick={() => {
+                      router.push(`/profile/${follower._id}`);
+                    }}
                   >
                     <CardContent className="p-0 flex items-center gap-2">
                       <Avatar>
@@ -92,6 +98,9 @@ export const FollowSection = ({
                   <Card
                     key={follower._id}
                     className="bg-black border-none w-screen"
+                    onClick={() => {
+                      router.push(`/profile/${follower._id}`);
+                    }}
                   >
                     <CardContent className="p-0 flex items-center gap-2">
                       <Avatar>
