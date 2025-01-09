@@ -26,8 +26,8 @@ const Page = () => {
   };
   const router = useRouter();
   const validation = async () => {
-    email && setErrorEmail(true);
-    password && setErrorPassword(true);
+    setErrorEmail(true);
+    setErrorPassword(true);
     const jsonData = await fetch(
       "https://instagram-server-8xvr.onrender.com/signup",
       {
