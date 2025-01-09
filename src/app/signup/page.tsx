@@ -26,8 +26,8 @@ const Page = () => {
   };
   const router = useRouter();
   const validation = async () => {
-    email === "" ? setErrorEmail(true) : null;
-    password === "" ? setErrorPassword(true) : null;
+    email && setErrorEmail(true);
+    password && setErrorPassword(true);
     const jsonData = await fetch(
       "https://instagram-server-8xvr.onrender.com/signup",
       {
@@ -71,9 +71,7 @@ const Page = () => {
               setEmail(e.target.value);
             }}
           />
-          {errorEmail ? (
-            <div className="text-cyan-200">email is wrong</div>
-          ) : null}
+          {errorEmail && <div className="text-cyan-200">email is wrong</div>}
           <Input
             className="text-white"
             placeholder="Password"
@@ -82,16 +80,10 @@ const Page = () => {
               setPassword(e.target.value);
             }}
           />
-          {errorPassword ? (
+          {errorPassword && (
             <div className="text-cyan-200">password is wrong</div>
-          ) : null}
-          <Button
-            onClick={() => {
-              validation;
-            }}
-          >
-            Sign up
-          </Button>
+          )}
+          <Button onClick={validation}>Sign up</Button>
         </CardContent>
         <CardFooter className="flex gap-1">
           <p className="text-white">Have an account?</p>
