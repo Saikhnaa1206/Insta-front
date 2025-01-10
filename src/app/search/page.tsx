@@ -53,7 +53,12 @@ const Search = () => {
             setInput(e.target.value);
           }}
         />
-        <UserRoundSearch className="text-white" onClick={getUsers} />
+        <UserRoundSearch
+          className="text-white"
+          onClick={() => {
+            getUsers();
+          }}
+        />
       </div>
       {filteredUsers?.map((user) => {
         return (

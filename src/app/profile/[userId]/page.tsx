@@ -62,7 +62,6 @@ const Profile = () => {
     );
     const response = await jsonData.json();
     setUser(response);
-    console.log(response);
   };
   const followUser = async () => {
     if (followedOrNot) {
@@ -158,7 +157,16 @@ const Profile = () => {
           >
             {followedOrNot ? "unfollow" : "follow"}
           </Button>
-        ) : null}
+        ) : (
+          <Button
+            className="w-3/5"
+            onClick={() => {
+              router.replace(`/edit`);
+            }}
+          >
+            edit profile
+          </Button>
+        )}
       </div>
       <div className="width-full flex flex-wrap">
         {" "}
