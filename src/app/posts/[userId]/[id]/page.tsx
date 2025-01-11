@@ -19,7 +19,7 @@ import { useParams, useRouter } from "next/navigation";
 import { LikedUsersSection } from "../../../components/LikedUsersSection";
 import PostFooter from "../../../components/PostFooter";
 import { ChevronLeft } from "lucide-react";
-
+import { EllipsisVertical } from "lucide-react";
 type User = {
   _id: string;
   username: string;
@@ -95,15 +95,20 @@ const Page = () => {
                 key={post._id}
                 className=" flex flex-col justify-center  text-xl bg-black border-none"
               >
-                <CardHeader
-                  onClick={() => router.push(`/profile/${post.userId._id}`)}
-                >
-                  <div className="flex gap-2 items-center ">
-                    <Avatar>
-                      <AvatarImage src={post.userId.profileImage} />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <div className="text-white">{post.userId.username}</div>
+                <CardHeader>
+                  <div className="flex justify-between items-center w-full">
+                    {" "}
+                    <div
+                      className="flex gap-2 items-center "
+                      onClick={() => router.push(`/profile/${post.userId._id}`)}
+                    >
+                      <Avatar>
+                        <AvatarImage src={post.userId.profileImage} />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="text-white">{post.userId.username}</div>
+                    </div>
+                    <EllipsisVertical className="text-white" />
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
