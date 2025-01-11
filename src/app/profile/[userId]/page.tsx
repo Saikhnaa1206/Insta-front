@@ -62,6 +62,7 @@ const Profile = () => {
     );
     const response = await jsonData.json();
     setUser(response);
+    console.log(response);
   };
   const followUser = async () => {
     if (followedOrNot) {
@@ -101,7 +102,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="bg-black flex flex-col w-screen h-screen relative ">
+    <div className="bg-black flex flex-col w-screen h-screen relative gap-2">
       <FollowSection
         open={open}
         setOpen={setOpen}
@@ -159,12 +160,11 @@ const Profile = () => {
           </Button>
         ) : (
           <Button
-            className="w-3/5"
             onClick={() => {
-              router.replace(`/edit`);
+              router.replace("/edit");
             }}
           >
-            edit profile
+            Edit profile
           </Button>
         )}
       </div>

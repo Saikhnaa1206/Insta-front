@@ -43,7 +43,7 @@ const Page = () => {
 
   return (
     <div className="relative flex flex-col justify-start bg-black h-screen w-screen">
-      <div className=" flex flex-col justify-start gap-5 items-center">
+      <div className=" flex flex-col justify-start gap-5 i">
         {" "}
         <div className="flex w-3/3 justify-start">
           {" "}
@@ -59,7 +59,7 @@ const Page = () => {
           {" "}
           {comments?.map((comment) => {
             return (
-              <Card key={comment._id} className="bg-black border-none ">
+              <Card key={comment._id} className="bg-black border-none px-6">
                 <CardContent className="p-0 flex">
                   <Avatar>
                     <AvatarImage src={comment.userId.profileImage} />
