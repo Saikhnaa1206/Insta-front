@@ -18,7 +18,15 @@ import { Button } from "@/components/ui/button";
 import { useRouter } from "next/navigation";
 import { LikedUsersSection } from "../components/LikedUsersSection";
 import PostFooter from "../components/PostFooter";
-
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { EllipsisVertical } from "lucide-react";
+import { jwtDecode } from "jwt-decode";
 type User = {
   _id: string;
   username: string;
@@ -38,13 +46,30 @@ type postType = {
   likes: string[];
   comments: Comment[];
 }[];
+type tokenType = { userId: string; username: string };
 
 const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [postId, setPostId] = useState<string>("");
   const router = useRouter();
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken") ?? "";
+  const decodedToken: tokenType = jwtDecode(token);
+  const accountId = decodedToken.userId;
+  const deletePost = async (postId: string) => {
+    const body = {
+      accountId,
+      postId,
+    };
+    await fetch(" https://instagram-server-8xvr.onrender.com/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  };
   const getPosts = async () => {
     const jsonData = await fetch(
       "https://instagram-server-8xvr.onrender.com/posts",
@@ -76,16 +101,44 @@ const Page = () => {
         {posts?.map((post) => {
           return (
             <div key={post._id} className="w-full">
-              <Card className="flex flex-col justify-center text-xl bg-black border-none">
-                <CardHeader
-                  onClick={() => router.push(`/profile/${post.userId._id}`)}
-                >
-                  <div className="flex gap-2 items-center ">
-                    <Avatar>
-                      <AvatarImage src={post.userId.profileImage} />
-                      <AvatarFallback>CN</AvatarFallback>
-                    </Avatar>
-                    <div className="text-white">{post.userId.username}</div>
+              <Card
+                key={post._id}
+                className=" flex flex-col justify-center  text-xl bg-black border-none"
+              >
+                <CardHeader>
+                  <div className="flex justify-between items-center w-full">
+                    {" "}
+                    <div
+                      className="flex gap-2 items-center "
+                      onClick={() => router.push(`/profile/${post.userId._id}`)}
+                    >
+                      <Avatar>
+                        <AvatarImage src={post.userId.profileImage} />
+                        <AvatarFallback>CN</AvatarFallback>
+                      </Avatar>
+                      <div className="text-white">{post.userId.username}</div>
+                    </div>
+                    {accountId === post.userId._id ? (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger>
+                          {" "}
+                          <EllipsisVertical className="text-white" />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent>
+                          <DropdownMenuSeparator />
+                          <DropdownMenuItem
+                            onClick={() => {
+                              deletePost(post._id);
+                            }}
+                          >
+                            Delete post
+                          </DropdownMenuItem>
+                          <DropdownMenuItem>Edit caption</DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    ) : (
+                      <EllipsisVertical className="text-white" />
+                    )}
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">

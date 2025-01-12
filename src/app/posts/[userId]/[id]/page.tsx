@@ -27,6 +27,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { jwtDecode } from "jwt-decode";
 
 type User = {
   _id: string;
@@ -47,17 +48,19 @@ type postType = {
   likes: string[];
   comments: Comment[];
 };
-
+type tokenType = { userId: string; username: string };
 const Page = () => {
   const { userId, id } = useParams() || "";
   const [posts, setPosts] = useState<postType[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [postId, setPostId] = useState<string>("");
   const router = useRouter();
-  const token = localStorage.getItem("accessToken");
+  const token = localStorage.getItem("accessToken") ?? "";
+  const decodedToken: tokenType = jwtDecode(token);
+  const accountId = decodedToken.userId;
   const deletePost = async (postId: string) => {
     const body = {
-      userId,
+      accountId,
       postId,
     };
     await fetch(" https://instagram-server-8xvr.onrender.com/delete", {
@@ -143,7 +146,7 @@ const Page = () => {
                         >
                           Delete post
                         </DropdownMenuItem>
-                        <DropdownMenuItem>Edit post</DropdownMenuItem>
+                        <DropdownMenuItem>Edit caption</DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </div>

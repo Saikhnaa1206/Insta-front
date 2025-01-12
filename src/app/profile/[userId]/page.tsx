@@ -102,7 +102,7 @@ const Profile = () => {
   }, []);
 
   return (
-    <div className="bg-black flex flex-col w-screen h-screen relative gap-2">
+    <div className="bg-black flex flex-col w-screen h-screen relative">
       <FollowSection
         open={open}
         setOpen={setOpen}

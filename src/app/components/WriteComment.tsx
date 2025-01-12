@@ -29,7 +29,7 @@ const WriteComment = ({ postId }: { postId: string }) => {
   };
 
   return (
-    <div className="text-white w-screen flex fixed bottom-10 px-6">
+    <div className="text-white w-fit flex fixed bottom-10 px-6">
       <Input
         className="border-none w-80"
         placeholder="Add a comment"

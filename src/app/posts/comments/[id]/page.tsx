@@ -43,7 +43,7 @@ const Page = () => {
 
   return (
     <div className="relative flex flex-col justify-start bg-black h-screen w-screen">
-      <div className=" flex flex-col justify-start gap-5 i">
+      <div className=" flex flex-col justify-start gap-5 ">
         {" "}
         <div className="flex w-3/3 justify-start">
           {" "}
