@@ -20,6 +20,14 @@ import { LikedUsersSection } from "../../../components/LikedUsersSection";
 import PostFooter from "../../../components/PostFooter";
 import { ChevronLeft } from "lucide-react";
 import { EllipsisVertical } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 type User = {
   _id: string;
   username: string;
@@ -47,7 +55,20 @@ const Page = () => {
   const [postId, setPostId] = useState<string>("");
   const router = useRouter();
   const token = localStorage.getItem("accessToken");
-
+  const deletePost = async (postId: string) => {
+    const body = {
+      userId,
+      postId,
+    };
+    await fetch(" https://instagram-server-8xvr.onrender.com/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  };
   const getPosts = async () => {
     const jsonData = await fetch(
       `https://instagram-server-8xvr.onrender.com/getPostsOfOneUser/${userId}`,
@@ -88,7 +109,7 @@ const Page = () => {
       </div>
       <div className="flex flex-col justify-center items-center gap-10 bg-black">
         {" "}
-        {posts?.map((post) => {
+        {posts?.map((post: postType) => {
           return (
             <div key={post._id} className="w-full">
               <Card
@@ -108,7 +129,23 @@ const Page = () => {
                       </Avatar>
                       <div className="text-white">{post.userId.username}</div>
                     </div>
-                    <EllipsisVertical className="text-white" />
+                    <DropdownMenu>
+                      <DropdownMenuTrigger>
+                        {" "}
+                        <EllipsisVertical className="text-white" />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent>
+                        <DropdownMenuSeparator />
+                        <DropdownMenuItem
+                          onClick={() => {
+                            deletePost(post._id);
+                          }}
+                        >
+                          Delete post
+                        </DropdownMenuItem>
+                        <DropdownMenuItem>Edit post</DropdownMenuItem>
+                      </DropdownMenuContent>
+                    </DropdownMenu>
                   </div>
                 </CardHeader>
                 <CardContent className="p-0">
