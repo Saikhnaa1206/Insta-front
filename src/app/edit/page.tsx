@@ -15,14 +15,14 @@ type userType = {
 };
 const Page = () => {
   const router = useRouter();
-
-  const [accountId, setAccountId] = useState("");
+  const token = localStorage.getItem("accessToken") ?? "";
+  const decodedToken: tokenType = jwtDecode(token);
+  const accountId = decodedToken.userId;
   const [user, setUser] = useState<userType>();
   const [username, setUsername] = useState<string | undefined>(user?.username);
   const [bio, setBio] = useState<string | undefined>(user?.bio);
 
   const getUser = async () => {
-    const token = localStorage.getItem("accessToken") ?? "";
     const jsonData = await fetch(
       `https://instagram-server-8xvr.onrender.com/getAllOfOneUser/${accountId}`,
       {
@@ -37,9 +37,6 @@ const Page = () => {
   };
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken") ?? "";
-    const decodedToken: tokenType = jwtDecode(token);
-    setAccountId(decodedToken.userId);
     if (!token) {
       router.push("/login");
     } else {
@@ -69,7 +66,6 @@ const Page = () => {
     return result.secure_url;
   };
   const update = async () => {
-    const token = localStorage.getItem("accessToken") ?? "";
     const uploadedImages = await uploadImage();
     const body = {
       username: username === undefined ? user?.username : username,
