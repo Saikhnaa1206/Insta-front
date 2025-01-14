@@ -18,7 +18,6 @@ const WritePost = () => {
   const router = useRouter();
   const [caption, setCaption] = useState<string>("");
   const [images, setImages] = useState<FileList | null>(null);
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const uploadImages = async () => {
     if (!images) return;
 
@@ -44,10 +43,10 @@ const WritePost = () => {
     });
 
     const uploadedUrls = await Promise.all(uploadPromises);
-
-    setUploadedImages(uploadedUrls.filter((url) => url !== null) as string[]);
+    return uploadedUrls.filter((url) => url !== null) as string[];
   };
   const createPost = async () => {
+    const uploadedImages = await uploadImages();
     const decodedToken: tokenType = jwtDecode(token);
     const userId = decodedToken.userId;
     const body = {
@@ -55,7 +54,7 @@ const WritePost = () => {
       postImage: uploadedImages,
       userId,
     };
-    if (uploadedImages.length > 0 && caption !== "") {
+    if (uploadedImages && uploadedImages.length > 0 && caption !== "") {
       await fetch(" https://instagram-server-8xvr.onrender.com/create", {
         method: "POST",
         headers: {
@@ -92,15 +91,8 @@ const WritePost = () => {
           }}
           className="file:border file:border-gray-300 file:rounded-md file:px-4 file:py-2 file:bg-blue-50 file:text-blue-700 file:cursor-pointer hover:file:bg-blue-100 border-none"
         />
-        <Button onClick={uploadImages}>Upload</Button>
       </div>
-      {uploadedImages.map((img, index) => (
-        <img
-          key={index}
-          src={img}
-          className="max-w-full h-[300px] rounded-lg shadow-lg"
-        />
-      ))}
+
       <Input
         className="text-white border-none"
         placeholder="Caption"

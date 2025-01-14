@@ -25,8 +25,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { EllipsisVertical } from "lucide-react";
+import { CircleArrowUp, EllipsisVertical } from "lucide-react";
 import { jwtDecode } from "jwt-decode";
+import { Input } from "@/components/ui/input";
 type User = {
   _id: string;
   username: string;
@@ -52,6 +53,8 @@ const Page = () => {
   const [posts, setPosts] = useState<postType>([]);
   const [open, setOpen] = useState<boolean>(false);
   const [postId, setPostId] = useState<string>("");
+  const [edit, setEdit] = useState<boolean>(false);
+  const [captionValue, setCaptionValue] = useState<string>("");
   const router = useRouter();
   const token = localStorage.getItem("accessToken") ?? "";
   const decodedToken: tokenType = jwtDecode(token);
@@ -62,6 +65,20 @@ const Page = () => {
       postId,
     };
     await fetch(" https://instagram-server-8xvr.onrender.com/delete", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(body),
+    });
+  };
+  const editCaption = async () => {
+    const body = {
+      caption: captionValue,
+      postId,
+    };
+    await fetch(" https://instagram-server-8xvr.onrender.com/captionEdit", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -133,7 +150,15 @@ const Page = () => {
                           >
                             Delete post
                           </DropdownMenuItem>
-                          <DropdownMenuItem>Edit caption</DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => {
+                              setEdit(true);
+                              setCaptionValue(post?.caption);
+                              setPostId(post._id);
+                            }}
+                          >
+                            Edit caption
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     ) : (
@@ -154,10 +179,30 @@ const Page = () => {
                     </CarouselContent>
                   </Carousel>
                 </CardContent>
-                <CardDescription className="p-6 font-black text-white">
-                  {" "}
-                  {post.caption}
-                </CardDescription>
+                {edit === true &&
+                postId === post._id &&
+                accountId === post.userId._id ? (
+                  <CardDescription className="flex p-6 justify-between items-center">
+                    <Input
+                      className="font-black text-white border-none"
+                      value={captionValue}
+                      onChange={(e) => {
+                        setCaptionValue(e.target.value);
+                      }}
+                    />
+                    <CircleArrowUp
+                      className="text-white"
+                      onClick={() => {
+                        editCaption();
+                      }}
+                    />
+                  </CardDescription>
+                ) : (
+                  <CardDescription className="p-6 font-black text-white">
+                    {" "}
+                    {post.caption}{" "}
+                  </CardDescription>
+                )}
                 <PostFooter postId={post?._id} likes={post?.likes} />
                 <Button
                   className="text-white pl-6 text-xl w-fit bg-black"
@@ -168,7 +213,6 @@ const Page = () => {
                 >
                   {post.likes.length} likes
                 </Button>
-
                 <Link
                   href={`/posts/comments/${post._id}`}
                   className="text-white pl-6 text-xl"
